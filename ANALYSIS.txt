@@ -1,0 +1,17 @@
+Theoretically, the timing should be O(n^3) because you look n points three times.
+
+Emperical Analysis:
+
+10 Points --
+Elapsed Time: 987000 nanoseconds
+
+8 Points -- 
+Elapsed Time: 665000 nanoseconds
+
+5 Points --
+Elapsed Time: 534000 nanoseconds
+
+2 Points --
+Elapsed Time: 10000 nanoseconds
+
+The discrepencies are due to the overhead on the operations performed by the program.
