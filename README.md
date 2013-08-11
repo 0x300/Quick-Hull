@@ -1,4 +1,4 @@
-Convex-Hull-Calculator
+Quick-Hull
 ======================
 
-CS-203 Program 1
+CS-203 Program 2

@@ -1,1 +1,1 @@
-Open Prog1.java in jGrasp and build/run.
+Open Prog2.java in jGrasp and build/run.

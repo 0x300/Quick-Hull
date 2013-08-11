@@ -9,7 +9,7 @@
 import java.io.*;
 import java.util.*;
 
-public class Prog1 {
+public class Prog2 {
 	//global vars
 	public static boolean debug = false; //toggles debug mode
 	public static double[] xCoords; //array of x coordinates
