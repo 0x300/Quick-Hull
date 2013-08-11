@@ -13,31 +13,31 @@ public class Line {
 	private Point point2;
 	
 	//equation of this line
-	private double sACoef = 0;
-	private double sBCoef = 0;
-	private double sCCoef = 0;
+	private double aCoef = 0;
+	private double bCoef = 0;
+	private double cCoef = 0;
 	
-	public Line(int sX1, int sY1, int sX2, int sY2) { 
-		point1 = new Point(sX1,sY1);
-		point2 = new Point(sX2,sY2);
-		sACoef = sY2 - sY1;
-		sBCoef = sX1 - sX2;
-		sCCoef = sX1*sY2 - sY1*sX2;
+	public Line(int x1, int y1, int x2, int y2) { 
+		point1 = new Point(x1,y1);
+		point2 = new Point(x2,y2);
+		aCoef = y2 - y1;
+		bCoef = x1 - x2;
+		bCoef = x1*y2 - y1*x2;
 	}
 	
 	public Line(Point point1, Point point2) {
 		this.point1 = point1;
 		this.point2 = point2;
-		sACoef = this.point2.getY() - this.point1.getY();
-		sBCoef = this.point1.getX() - this.point2.getX();
-		sCCoef = this.point1.getX()*this.point2.getY() - 
+		aCoef = this.point2.getY() - this.point1.getY();
+		bCoef = this.point1.getX() - this.point2.getX();
+		cCoef = this.point1.getX()*this.point2.getY() - 
 					this.point1.getY()*this.point2.getX();
 	}
 	
 	public int compareTo(Point point) {
 		//calculate and temporarily save sign to see where point falls
 		//on the graph
-		double sign = sACoef*point.getX() + sBCoef*point.getY() - sCCoef;
+		double sign = aCoef*point.getX() + bCoef*point.getY() - cCoef;
 		
 		if(sign > 0) return 1; //point is on side 1
 		if(sign < 0) return -1; //point is on side 2
@@ -45,6 +45,6 @@ public class Line {
 	}
 	
 	public String toString() {
-		return sACoef + "x + " + sBCoef + "y = " + sCCoef;
+		return aCoef + "x + " + bCoef + "y = " + cCoef;
 	}
 }
