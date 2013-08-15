@@ -6,7 +6,7 @@
 /* Point class: object used to represent a point in a 2d plane
 /**************************************************************/
 
-public class Point {
+public class Point implements Comparable<Point>{
 	//fields
 	private double xCoord = 0; //point's x value
 	private double yCoord = 0; //point's y value
@@ -22,6 +22,15 @@ public class Point {
 	
 	public double getY() {
 		return yCoord;
+	}
+	
+	public int compareTo(Point point) {
+		if(xCoord - point.getX() > 0) return 1;
+		else if(xCoord - point.getX() == 0) {
+			if(yCoord - point.getY() > 0) return 1;
+			else return -1;
+		}
+		else return -1;
 	}
 	
 	public String toString() {
