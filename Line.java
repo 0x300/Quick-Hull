@@ -1,4 +1,4 @@
-/**************************************************************/
+	/**************************************************************/
 /* Josh Lindoo
 /* Login ID: lind6441
 /* CS-203, Summer 2013
@@ -50,6 +50,53 @@ public class Line {
 		bCoef = x1*y2 - y1*x2;
 	}
 	
+	/**************************************************************/
+	/* Method: distFromLine
+	/* Purpose: Calculate the dist of a point from a line obj
+	/* Parameters:
+	/* Point testPoint -- point to calc dist to
+	/* Returns: double -- dist to the point
+	/**************************************************************/
+	public double distFromLine(Point testPoint) {
+		double x3 = testPoint.getX();
+		double y3 = testPoint.getY();
+		return (x1*y2) + (x3*y1) + (x2*y3) - (x3*y2) - (x2*y1) - (x1*y3);
+	}
+	
+	/**************************************************************/
+	/* Method: isRight
+	/* Purpose: returns true if point is to the right of the line
+	/* Parameters:
+	/* Point testPoint -- point to test
+	/* Returns: boolean -- true if is to the right
+	/**************************************************************/
+	public boolean isRight(Point testPoint) {
+		if(distFromLine(testPoint) < 0) return true;
+		else return false;
+	}
+	
+	/**************************************************************/
+	/* Method: getPoint1 and getPoint2
+	/* Purpose: Accessors for the two points that make up the line
+	/* Parameters:
+	/* none
+	/* Returns: Point -- the point requested
+	/**************************************************************/
+	public Point getPoint1() {
+		return new Point(x1,y1);
+	}
+	
+	public Point getPoint2() {
+		return new Point(x2,y2);
+	}
+	
+	/**************************************************************/
+	/* Method: compareTo
+	/* Purpose: compare point to line
+	/* Parameters:
+	/* Point point -- point to compare to line
+	/* Returns: void
+	/**************************************************************/
 	public int compareTo(Point point) {
 		//calculate and temporarily save sign to see where point falls
 		//on the graph
@@ -60,6 +107,13 @@ public class Line {
 		else return 0; //point is on this line
 	}
 	
+	/**************************************************************/
+	/* Method: toString
+	/* Purpose: print str representation of line eqn
+	/* Parameters:
+	/* String[] args: filename or -debug filename
+	/* Returns: void
+	/**************************************************************/
 	public String toString() {
 		return aCoef + "x + " + bCoef + "y = " + cCoef;
 	}

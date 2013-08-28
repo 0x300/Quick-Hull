@@ -11,11 +11,19 @@ public class Point implements Comparable<Point>{
 	private double xCoord = 0; //point's x value
 	private double yCoord = 0; //point's y value
 	
+	//constructor
 	public Point(double xCoord, double yCoord) {
 		this.xCoord = xCoord;
 		this.yCoord = yCoord;
 	}
 	
+	/**************************************************************/
+	/* Method: getX and getY
+	/* Purpose: Accessor methods
+	/* Parameters:
+	/* none
+	/* Returns: double -- the x or y value
+	/**************************************************************/
 	public double getX() {
 		return xCoord;
 	}
@@ -24,6 +32,13 @@ public class Point implements Comparable<Point>{
 		return yCoord;
 	}
 	
+	/**************************************************************/
+	/* Method: compareTo
+	/* Purpose: Compare points by x value and then res. ties by y val
+	/* Parameters:
+	/* String[] args: filename or -debug filename
+	/* Returns: void
+	/**************************************************************/
 	public int compareTo(Point point) {
 		if(xCoord - point.getX() > 0) return 1;
 		else if(xCoord - point.getX() == 0) {
@@ -33,6 +48,13 @@ public class Point implements Comparable<Point>{
 		else return -1;
 	}
 	
+	/**************************************************************/
+	/* Method: toString
+	/* Purpose: Print point info
+	/* Parameters:
+	/* none
+	/* Returns: void
+	/**************************************************************/
 	public String toString() {
 		return "(" + xCoord + "," + yCoord + ")";
 	}

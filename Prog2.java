@@ -35,10 +35,10 @@ public class Prog2 {
 				importData(args[0]);
 				
 				startTime = System.nanoTime();
-				quickHull();
+				findHull();
 				endTime = System.nanoTime();
 				
-				//System.out.println("Hull:\n" + hull); //print hull
+				printHull();
 				
 				//print timing result
 				System.out.println("Elapsed Time: " + (endTime-startTime) + 
@@ -54,8 +54,10 @@ public class Prog2 {
 				importData(args[1]);
 				
 				startTime = System.nanoTime();
-				quickHull();
+				findHull();
 				endTime = System.nanoTime();
+				
+				printHull();
 				
 				//print timing result
 				System.out.println("Elapsed Time: " + (endTime-startTime) + 
@@ -84,16 +86,12 @@ public class Prog2 {
 			fileScan = new Scanner(new File(fileName));
 			
 			//import points into arraylist
-			while(fileScan.hasNext()) {
+			while(fileScan.hasNext()) { 
 				points.add(new Point(Double.parseDouble(fileScan.next()), Double.parseDouble(fileScan.next())));
 			}
 			
 			//sort list of points by x value
 			Collections.sort(points);
-			
-			for(Point point: points){
-				  System.out.println(point);
-			}
 			
 		}
 		catch(FileNotFoundException exc) {
@@ -108,14 +106,30 @@ public class Prog2 {
 	}
 	
 	/**************************************************************/
-	/* Method: calcHull
+	/* Method: findHull
 	/* Purpose: Find the convex hull of the input
 	/* Parameters:
 	/* Returns: void
 	/**************************************************************/
-	public static void calcHull() {
+	public static void findHull() {
 		
+		Point pointA = points.get(0); //left most point
+		Point pointB = points.get(points.size()-1); //right most point
 		
+		convexHull.add(pointA); //add left most point to hull
+		convexHull.add(pointB); //add right most point to hull
+		
+		ArrayList<Point> sublist1 = new ArrayList<Point>(); //right side of line AB
+		ArrayList<Point> sublist2 = new ArrayList<Point>(); //right side of line BA
+		
+		Line lineAB = new Line(pointA, pointB); //line going one way
+		Line lineBA = new Line(pointB, pointA); //line going the other way
+		
+		sublist1 = rightSidePoints(lineAB); //upper points
+		sublist2 = rightSidePoints(lineBA); //lower points
+		
+		quickHull(sublist1, lineAB);
+		quickHull(sublist2, lineBA);
 		
 	}
 	
@@ -125,9 +139,37 @@ public class Prog2 {
 	/* Parameters:
 	/* Returns: void
 	/**************************************************************/
-	public static void quickHull() {
+	public static void quickHull(ArrayList<Point> pointSet, Line line) {
 		
+		if(pointSet.isEmpty()) return;
 		
+		//find farthest point
+		double highestDist = 0; //track index of farthest point
+		Point farthestPoint = null;
+		
+		Iterator<Point> pointIterator = pointSet.iterator();
+		while(pointIterator.hasNext()) {
+			Point currPoint = pointIterator.next(); //current point
+			double distance = line.distFromLine(currPoint); //distance
+			if(distance < highestDist) {
+				highestDist = distance;
+				farthestPoint = currPoint;
+			}
+		}
+		
+		convexHull.add(farthestPoint);
+		
+		Line lineAB = new Line(line.getPoint1(), farthestPoint); //line from first point to the farthest point
+		Line lineBC = new Line(farthestPoint, line.getPoint2()); //line from the farthest point to the second point
+		
+		ArrayList<Point> sublist1 = new ArrayList<Point>(); //left side of line AB
+		ArrayList<Point> sublist2 = new ArrayList<Point>(); //left side of line BA
+		
+		sublist1 = rightSidePoints(lineAB); //upper points
+		sublist2 = rightSidePoints(lineBC); //lower points
+		
+		quickHull(sublist1, lineAB);
+		quickHull(sublist2, lineBC);
 		
 	}
 	
@@ -147,18 +189,54 @@ public class Prog2 {
 	}
 	
 	/**************************************************************/
-	/* Method: main
-	/* Purpose: Control program flow
+	/* Method: pointPosition
+	/* Purpose: calculate the position of a point relative to a line
 	/* Parameters:
-	/* String[] args: title of book to find
+	/* Point initPoint -- the starting point for a line
+	/* Point endPoint -- the ending point for a line
+	/* Point testPoint -- the point to check the pos. for
+	/* Returns: double -- the distance from the line
+	/**************************************************************/
+	public static double pointPosition(Point initPoint, Point endPoint, Point testPoint) {
+		Line currLine = new Line(initPoint, endPoint);
+		return currLine.distFromLine(testPoint);
+	}
+	
+	/**************************************************************/
+	/* Method: rightSidePoints
+	/* Purpose: Find points to the right side of a line
+	/* Parameters:
+	/* Line line -- the line to find points to the right of
+	/* Returns: ArrayList<Point> -- an arraylist of the points to the right of the line
+	/**************************************************************/
+	public static ArrayList<Point> rightSidePoints(Line line) {
+		Iterator<Point> pointIterator = points.iterator();
+		ArrayList<Point> rightPoints = new ArrayList<Point>();
+		
+		while(pointIterator.hasNext()) {
+			//get current point
+			Point currPoint = pointIterator.next();
+			
+			//if it is to the right of AB
+			if(line.isRight(currPoint))
+				rightPoints.add(currPoint);
+		}
+		
+		return rightPoints;
+	}
+	
+	/**************************************************************/
+	/* Method: printHull
+	/* Purpose: Print the points that make up the hull
+	/* Parameters:
+	/* none
 	/* Returns: void
 	/**************************************************************/
-	public static void addEdgeToHull(double x1, double y1, double x2, double y2) {
-		//add points if not duplicates
-//		if(!hull.contains(x1 + ", " + y1))
-//			hull += "(" + x1 + ", " + y1 + ")\n";
-//		
-//		if(!hull.contains(x2 + ", " + y2))
-//			hull += "(" + x2 + ", " + y2 + ")\n";
+	public static void printHull() {
+		Iterator<Point> iter = convexHull.iterator();
+		System.out.println("\n\nConvex Hull: ");
+		while(iter.hasNext()) {
+			System.out.println(iter.next());
+		}
 	}
 }
